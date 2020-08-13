@@ -4,6 +4,7 @@ import {UserContext} from "./UserContext"
 import Style from './style.css';
 import MoviesPage from "./MoviesPage"
 import GamePage from "./GamesPage"
+import TablePage from "./TablePage"
 // import LoginPage from "./LoginPage"
 import logo from "./logo.png"
 
@@ -21,6 +22,7 @@ const Menubar=()=>{
                     <ul>
                         <li><Link to="/game">Games</Link></li>
                         <li><Link to="/movie">Movies</Link></li>
+                        <li><Link to="/table">Table</Link></li>
                         {
                             user&&(<li><Link to="/edit">Editor</Link></li>)
                         }
@@ -37,6 +39,7 @@ const Menubar=()=>{
             <Switch>
                 <Route path="/game" component={GamePage}/>
                 <Route path="/movie" component={MoviesPage}/>
+                <Route path="/table" component={TablePage}/>
                 <Route path="/edit"/>
                 <Route path="/"/>
                 {/* <Route path="/login" component={LoginPage}/> */}

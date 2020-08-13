@@ -25,34 +25,35 @@ const MoviesPage=()=>{
         }
     })
     return(
-        <><link href={Style} rel="stylesheet" />  
-        <h1>Movies</h1>
-        <table>
-            <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Year</th>
-                <th>Genre</th>
-                <th>Rating</th>
-                <th>Review</th>
-                <th>Image</th>
-            </tr>
-        {
-            movie!==null&&movie.map((el)=>{
+        <><div>
+        <link href={Style} rel="stylesheet" />  
+        <section>
+            <h1>Daftar Film</h1>
+            <div id="article-list">
+            { movie!==null&&movie.map((movie) => {
                 return(
-                    <tr>
-                        <td>{el.title}</td>
-                        <td>{el.description}</td>
-                        <td>{el.year}</td>
-                        <td>{el.genre}</td>
-                        <td>{el.rating}</td>
-                        <td>{el.res}</td>
-                        <td><img src={el.image_url} alt=""></img></td>
-                    </tr>
-                )
-            })
-        }
-        </table>
+                <div key={movie.id}>
+                <img src={movie.image_url} alt="film"></img>
+                <div class="review">
+                <a href><h3>{movie.title}</h3></a>
+                <h4>Rating : {movie.rating}<br/>
+                Year : {movie.year}<br/>
+                Genre : {movie.genre}
+                </h4>
+                <p>
+                    <b>Deskripsi :</b> {movie.description}
+                </p><br/>
+                <p>
+                    <b>Review :</b> {movie.review}
+                </p>
+                </div>
+                <hr/>
+                </div>
+                )})
+            }
+            </div>
+            </section>
+            </div>
         </>
     )
 }

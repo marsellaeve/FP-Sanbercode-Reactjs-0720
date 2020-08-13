@@ -2,8 +2,7 @@ import React from "react"
 import {BrowserRouter as Router} from "react-router-dom"
 import Menubar from "./Menubar"
 import Sidebar from "./Sidebar"
-// import GamesPage from "./GamesPage"
-
+import Footer from "./Footer"
 const Apps=()=>{
     return(
         <>
@@ -11,6 +10,7 @@ const Apps=()=>{
             <Menubar/>
             {/* <GamesPage/> */}
             <Sidebar/>
+            <Footer/>
         </Router>
         </>
     )
