@@ -1,21 +1,21 @@
 import React from "react"
-import Style from './style.css';
+import { Typography } from "@material-ui/core";
 function Sidebar(){
     return(
-        <><div class="sidenav"><link href={Style} rel="stylesheet" />  
-        <div style={{textAlign:"center",marginTop:"100px",padding:"10px"}}>
-        <h1>Welcome</h1>
-        <p>
+        <><div class="sidenav"> 
+        <div style={{textAlign:"center",marginTop:"30px",padding:"10px",color:"darkblue"}}>
+        <Typography component="h1" variant="h5">Welcome</Typography><br/>
+        <Typography component="h1" variant="body2">
             This website is made for Final Project of Sanbercode Reactjs FrontEnd Developer Class.
             Enjoy to get list of movies and games!
-        </p>
-        <div style={{backgroundColor:"pink"}}>
-        <h3 style={{color:"black", paddingTop:"20px"}}>About Me</h3>
-        <strong style={{width: '100px'}}>Nama:</strong><br/>Evelyn Tjitrodjojo <br/><br/>
-        <strong style={{width: '100px'}}>Email:</strong><br/>Marsella.eve@gmail.com<br/><br/>
-        <strong style={{width: '100px'}}>Sistem Operasi yang digunakan:</strong><br/>Windows<br/><br/>
-        <strong style={{width: '100px'}}>Akun Gitlab:</strong><br/>github.com/Marsellaeve<br/><br/>
-        <strong style={{width: '100px'}}>Akun Telegram:</strong><br/>Marsellaeve<br/><br/>
+        </Typography><br/>
+        <div style={{backgroundColor:"pink"}}><br/>
+        <Typography component="h1" variant="subtitle1">About Me<br/></Typography>
+        <Typography component="h1" variant="caption">Nama:<br/>Evelyn Tjitrodjojo <br/><br/></Typography>
+        <Typography component="h1" variant="caption" >Email:<br/>Marsella.eve@gmail.com<br/><br/></Typography>
+        <Typography component="h1" variant="caption" >Sistem Operasi yang digunakan:<br/>Windows<br/><br/></Typography>
+        <Typography component="h1" variant="caption" >Akun Gitlab:<br/>github.com/Marsellaeve<br/><br/></Typography>
+        <Typography component="h1" variant="caption" >Akun Telegram:<br/>Marsellaeve<br/><br/></Typography>
         </div>
         </div>
         </div>

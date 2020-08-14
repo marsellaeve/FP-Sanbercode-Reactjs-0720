@@ -1,7 +1,7 @@
 import axios from "axios"
 import React, {useState, useEffect} from "react"
 import Style from './style.css'
-import {Container,Button} from '@material-ui/core';
+import {Container,Button,Typography,Table,TextField} from '@material-ui/core';
 const TablePage=()=>{
     const [movie,setMovie]=useState(null)
     const [game,setGame]=useState(null)
@@ -189,8 +189,8 @@ const TablePage=()=>{
         <div style={{paddingLeft:"100px",paddingRight:"100px",paddingTop:"100px"}}>
         <div style={{padding:"20px",backgroundColor:"lightgoldenrodyellow"}}>
         <link href={Style} rel="stylesheet" />  
-        <h1>Movies</h1>
-        <table>
+        <Typography component="h1" variant="h4">Movies</Typography><br/>
+        <Table>
             <tr>
                 <th>Title</th>
                 <th>Description</th>
@@ -200,12 +200,12 @@ const TablePage=()=>{
                 <th>Review</th>
             </tr>
             <tr>
-                <td><Button onClick={handleSort} value={"mtitle"} variant="contained">sort</Button></td>
-                <td><Button onClick={handleSort} value={"mdescription"} variant="contained">sort</Button></td>
-                <td><Button onClick={handleSort} value={"myear"} variant="contained">sort</Button></td>
-                <td><Button onClick={handleSort} value={"mgenre"} variant="contained">sort</Button></td>
-                <td><Button onClick={handleSort} value={"mrating"} variant="contained">sort</Button></td>
-                <td><Button onClick={handleSort} value={"mreview"} variant="contained">sort</Button></td>
+                <td><Button onClick={handleSort} value={"mtitle"} variant="outlined">sort</Button></td>
+                <td><Button onClick={handleSort} value={"mdescription"} variant="outlined">sort</Button></td>
+                <td><Button onClick={handleSort} value={"myear"} variant="outlined">sort</Button></td>
+                <td><Button onClick={handleSort} value={"mgenre"} variant="outlined">sort</Button></td>
+                <td><Button onClick={handleSort} value={"mrating"} variant="outlined">sort</Button></td>
+                <td><Button onClick={handleSort} value={"mreview"} variant="outlined">sort</Button></td>
             </tr>
         {
             movie!==null&&movie.map((el)=>{
@@ -222,43 +222,51 @@ const TablePage=()=>{
                 )
             })
         }
-        </table>
+        </Table>
         <form onSubmit={handleSearch1}><br/>
+        <Typography component="h2" variant="subtitle1">
             <label>Title Movie : </label>
-            <input type="text" value={searchMovie} onChange={handleChange1}/>
+            <TextField type="text" value={searchMovie} onChange={handleChange1}/>
             <button>Search</button>
+            </Typography>
         </form>
         {searchMovie!==null&&find!==null &&
-            <p>
+            <Typography component="h2" variant="body2"><p><br/>
                 Title: {find.title}<br/>
                 Description : {find.description}<br/>
                 Year : {find.year}<br/>
                 Genre : {find.genre}<br/>
                 Rating : {find.rating}<br/>
                 Review : {find.review}<br/>
-            </p>
+            </p></Typography>
         }
         <form onSubmit={handleFilter} style={{float:"left"}}><br/>
+        <Typography component="h2" variant="subtitle1">
             <label>Year Movie : </label>
-            <input type="text" value={inputFilter} onChange={handleChangeFilter}/>
+            <TextField type="text" value={inputFilter} onChange={handleChangeFilter}/>
             <button>Filter</button>
+        </Typography>
         </form>
         <form onSubmit={handleFilter2} style={{float:"right"}}><br/>
+        <Typography component="h2" variant="subtitle1">
         <label>Genre Movie : </label>
-            <input type="text" value={inputFilter2} onChange={handleChangeFilter2}/>
+            <TextField type="text" value={inputFilter2} onChange={handleChangeFilter2}/>
             <button>Filter</button>
+        </Typography>
         </form><br/><br/>
         {filter!==null && filter.map((filter)=>{
             return(
+                <Typography component="h2" variant="body2"><br/>
                 <p>Title: {filter.title} | Description : {filter.description} | Year : {filter.year} | Genre : {filter.genre} | Rating : {filter.rating} | Review : {filter.review}</p>
+                </Typography>
             )
         })
         }
         </div></div>
         <div style={{paddingLeft:"100px",paddingRight:"100px",paddingBottom:"100px"}}>
         <div style={{padding:"20px",backgroundColor:"lightgoldenrodyellow"}}>
-        <h1>Games</h1>
-        <table>
+        <Typography component="h1" variant="h4">Games</Typography><br/>
+        <Table>
             <tr>
                 <th>Name</th>
                 <th>Genre</th>
@@ -268,12 +276,12 @@ const TablePage=()=>{
                 <th>Release</th>
             </tr>
             <tr>
-                <td><button onClick={handleSort} value={"gname"}>sort</button></td>
-                <td><button onClick={handleSort} value={"ggenre"}>sort</button></td>
-                <td><button onClick={handleSort} value={"gsingle"}>sort</button></td>
-                <td><button onClick={handleSort} value={"gmulti"}>sort</button></td>
-                <td><button onClick={handleSort} value={"gplatform"}>sort</button></td>
-                <td><button onClick={handleSort} value={"grelease"}>sort</button></td>
+                <td><Button variant="outlined" onClick={handleSort} value={"gname"}>sort</Button></td>
+                <td><Button variant="outlined" onClick={handleSort} value={"ggenre"}>sort</Button></td>
+                <td><Button variant="outlined" onClick={handleSort} value={"gsingle"}>sort</Button></td>
+                <td><Button variant="outlined" onClick={handleSort} value={"gmulti"}>sort</Button></td>
+                <td><Button variant="outlined" onClick={handleSort} value={"gplatform"}>sort</Button></td>
+                <td><Button variant="outlined" onClick={handleSort} value={"grelease"}>sort</Button></td>
             </tr>
         {
             game!==null&&game.map((el)=>{
@@ -289,13 +297,16 @@ const TablePage=()=>{
                 )
             })
         }
-        </table>
+        </Table>
         <form onSubmit={handleSearch2}><br/>
+        <Typography component="h2" variant="subtitle1">
             <label>Name Game : </label>
-            <input type="text" value={searchGame} onChange={handleChange2}/>
+            <TextField type="text" value={searchGame} onChange={handleChange2}/>
             <button>Search</button>
+        </Typography>
         </form>
         {searchGame!==null&&findG!==null &&
+        <Typography component="h2" variant="body2"><br/>
             <p>
                 Name: {findG.name}<br/>
                 Genre : {findG.genre}<br/>
@@ -304,20 +315,27 @@ const TablePage=()=>{
                 Platform : {findG.platform}<br/>
                 Release : {findG.release}<br/>
             </p>
+        </Typography>
         }
         <form onSubmit={handleFilter3} style={{float:"left"}}><br/>
+        <Typography component="h2" variant="subtitle1">
             <label>Release Game : </label>
-            <input type="text" value={inputFilter3} onChange={handleChangeFilter3}/>
+            <TextField type="text" value={inputFilter3} onChange={handleChangeFilter3}/>
             <button>Filter</button>
+        </Typography>
         </form>
         <form onSubmit={handleFilter4} style={{float:"right"}}><br/>
+        <Typography component="h2" variant="subtitle1">
         <label>Genre Game : </label>
-            <input type="text" value={inputFilter4} onChange={handleChangeFilter4}/>
+            <TextField type="text" value={inputFilter4} onChange={handleChangeFilter4}/>
             <button>Filter</button>
+        </Typography>
         </form><br/><br/>
         {filter2!==null && filter2.map((filter2)=>{
             return(
+                <Typography component="h2" variant="body2"><br/>
                 <p>Name: {filter2.name} | Genre : {filter2.genre} | Singleplayer : {filter2.singlePlayer} | Multiplayer : {filter2.multiplayer} | Platform : {filter2.platform} | Release : {filter2.release}</p>
+                </Typography>
             )
         })
         }

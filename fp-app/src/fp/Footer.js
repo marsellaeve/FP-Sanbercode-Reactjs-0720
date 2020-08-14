@@ -1,11 +1,10 @@
 import React from "react"
-import Style from './style.css';
+import { Typography } from "@material-ui/core";
 function Footer(){
     return(
         <>
-        <link href={Style} rel="stylesheet" />  
             <footer>
-                <h4>Made by EvelynTjitrodjojo</h4>
+                <Typography component="h1" variant="body2">Made by Evelyn Tjitrodjojo</Typography>
             </footer>
         </>
     )

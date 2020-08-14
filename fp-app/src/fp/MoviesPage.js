@@ -1,6 +1,7 @@
 import axios from "axios"
 import React, {useState, useEffect} from "react"
 import Style from './style.css'
+import { Button, Typography } from "@material-ui/core";
 const MoviesPage=()=>{
     const [movie,setMovie]=useState(null)
     useEffect(()=>{
@@ -37,26 +38,26 @@ const MoviesPage=()=>{
         <><div>
         <link href={Style} rel="stylesheet" />  
         <section>
-            <h1>Daftar Film</h1>
+            <Typography component="h1" variant="subtitle">Daftar Film</Typography><br/>
             <div id="article-list">
             { movie!==null&&movie.map((movie) => {
                 return(
                 <div key={movie.id}>
                 <img src={movie.image_url} alt="film"></img>
                 <div class="review">
-                <a href><h3>{movie.title}</h3></a>
-                <h4>Rating : {movie.rating}<br/>
+                <Typography component="h2" variant="h6">{movie.title}</Typography><br/>
+                <Typography component="h2" variant="body2">Rating : {movie.rating}<br/>
                 Year : {movie.year}<br/>
                 Genre : {movie.genre}
-                </h4>
-                <p>
+                </Typography><br/>
+                <Typography component="h4" variant="body2">
                     <b>Deskripsi :</b> {movie.description}
-                </p><br/>
-                <p>
+                </Typography>
+                <Typography component="h4" variant="body2">
                     <b>Review :</b> {movie.review}
-                </p>
+                </Typography>
                 </div>
-                <button onClick={handleDelete} value={movie.id}>Delete</button>
+                <Button variant="outlined" color="primary" onClick={handleDelete} value={movie.id}>Delete</Button>
                 <hr/>
                 </div>
                 )})

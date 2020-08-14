@@ -1,12 +1,12 @@
 import React,{useContext} from "react"
 import {Link,Switch,Route,useHistory} from "react-router-dom"
 import {UserContext} from "./UserContext"
-import Style from './style.css';
 import MoviesPage from "./MoviesPage"
 import GamePage from "./GamesPage"
 import TablePage from "./TablePage"
 import LoginPage from "./LoginPage"
 import logo from "./logo.png"
+import { Typography } from "@material-ui/core";
 
 const Menubar=()=>{
     const [user,setUser] = useContext(UserContext);
@@ -16,11 +16,12 @@ const Menubar=()=>{
         history.push("/");
     }
     return(
-        <><link href={Style} rel="stylesheet" />  
+        <>
             <header>
                 <img className="logo" id="logo" src={logo} width="200px" alt="logo" height="10px" />
                 <nav>
                     <ul>
+                        <Typography>
                         <li><Link to="/game">Games</Link></li>
                         <li><Link to="/movie">Movies</Link></li>
                         <li><Link to="/table">Table</Link></li>
@@ -34,7 +35,7 @@ const Menubar=()=>{
                         {
                             user==="sudah"&&(<li><a onClick={handleLogout}>Logout</a></li>)
                         }
-                        
+                        </Typography>
                         
                     </ul>
                 </nav>

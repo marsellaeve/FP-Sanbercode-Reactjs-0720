@@ -1,6 +1,7 @@
 import axios from "axios"
 import Style from './style.css'
 import React, {useState, useEffect} from "react"
+import { Typography,Button } from "@material-ui/core";
 const GamesPage=()=>{
     const [game,setGame]=useState(null)
     useEffect(()=>{
@@ -35,24 +36,24 @@ const GamesPage=()=>{
     }
     return(
         <><div>
-        <link href={Style} rel="stylesheet" />  
+        <link href={Style} rel="stylesheet" />
         <section>
-            <h1>Daftar Game</h1>
+            <Typography component="h1" variant="subtitle">Daftar Game</Typography><br/>
             <div id="article-list">
             { game!==null&&game.map((game) => {
                 return(
                 <div key={game.id}>
                 <img src={game.image_url} alt="game"></img>
                 <div class="review">
-                <a href><h3>{game.name}</h3></a>
-                <h4>Platform : {game.platform}<br/>
+                <Typography component="h2" variant="h6">{game.name}</Typography><br/>
+                <Typography component="h2" variant="body2">Platform : {game.platform}<br/>
                 Year : {game.release}<br/>
                 Genre : {game.genre}<br/>
                 Single Player : {game.singlePlayer}<br/>
                 Multi Player : {game.multiplayer}<br/>
-                </h4>
+                </Typography>
                 </div>
-                <button onClick={handleDelete} value={game.id}>Delete</button>
+                <Button variant="outlined" color="primary" onClick={handleDelete} value={game.id}>Delete</Button>
                 <hr/>
                 </div>
                 )})
