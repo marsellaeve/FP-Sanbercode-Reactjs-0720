@@ -24,6 +24,15 @@ const MoviesPage=()=>{
             })
         }
     })
+    const handleDelete=(event)=>{
+        let idMovie=parseInt(event.target.value);
+        let newDaftarMovie=movie.filter(el=>el.id!==idMovie)
+        axios.delete(`https://backendexample.sanbersy.com/api/movies/${idMovie}`)
+        .then(res=>{
+            console.log(res);
+        })
+        setMovie([...newDaftarMovie]);
+    }
     return(
         <><div>
         <link href={Style} rel="stylesheet" />  
@@ -47,6 +56,7 @@ const MoviesPage=()=>{
                     <b>Review :</b> {movie.review}
                 </p>
                 </div>
+                <button onClick={handleDelete} value={movie.id}>Delete</button>
                 <hr/>
                 </div>
                 )})

@@ -1,6 +1,6 @@
 import React from "react"
 import Style from './style.css';
-const Footer=()=>{
+function Footer(){
     return(
         <>
         <link href={Style} rel="stylesheet" />  

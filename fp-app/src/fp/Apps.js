@@ -3,16 +3,17 @@ import {BrowserRouter as Router} from "react-router-dom"
 import Menubar from "./Menubar"
 import Sidebar from "./Sidebar"
 import Footer from "./Footer"
-const Apps=()=>{
-    return(
-        <>
-        <Router>
-            <Menubar/>
-            {/* <GamesPage/> */}
-            <Sidebar/>
-            <Footer/>
-        </Router>
-        </>
-    )
+class Apps extends React.Component {
+    render(){
+        return(
+            <>
+            <Router>
+                <Menubar/>
+                <Sidebar/>
+                <Footer/>
+            </Router>
+            </>
+        )
+    }
 }
 export default Apps

@@ -1,207 +1,115 @@
-import React, { useContext, useState } from "react";
-import userContext from "./UserContext";
+import React, { useContext, useState, useEffect } from "react";
+import { UserContext } from "./UserContext";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-import { Button, TextField, makeStyles } from "@material-ui/core";
+// import { Button, TextField } from "@material-ui/core";
 
 const LoginPage = () => {
-  const [, setUser] = useContext(userContext);
-  const history = useHistory();
-  const [input, setInput] = useState({
-    username: "",
-    password: "",
-    createUsername: "",
-    createPassword: "",
-  });
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // let success = false;
-
-    if (input.username === "admin" && input.password === "admin") {
-      setUser({ username: input.username });
-      localStorage.setItem(
-        "user",
-        JSON.stringify({ username: input.username, password: input.password })
-      );
-      setInput({ ...input, username: "", password: "" });
-      alert("Login Successful!");
-      history.push("/");
-    } else {
-      alert("Wrong username or password!");
-    }
-  };
-
-  const handleCreate = (event) => {
-    event.preventDefault();
-    let date = new Date().toLocaleString();
-    axios.post(`https://backendexample.sanbersy.com/api/users`, {
-      created_at: date,
-      updated_at: date,
-      username: input.createUsername,
-      password: input.createPassword,
-    });
-    setInput({ ...input, createUsername: "", createPassword: "" });
-    alert("Account created");
-  };
-
-  const handleChange = (event) => {
-    let value = event.target.value;
-    let name = event.target.name;
-    switch (name) {
-      case "username": {
-        setInput({ ...input, username: value });
-        break;
+    const history=useHistory();
+    const [user,setUser]=useContext(UserContext);
+    const [login,setLogin]=useState(null);
+    const [iUsername,setIUsername]=useState("")
+    const [iPassword,setIPassword]=useState("")
+    const [tanda,setTanda]=useState("")
+    useEffect(()=>{
+      if(login===null){
+        axios.get(`https://backendexample.sanbersy.com/api/users`)
+        .then(res=>{
+          setLogin(res.data.map(el=>{
+            return{id:el.id,username:el.username,password:el.password}
+          }));
+        })
+        
       }
-      case "password": {
-        setInput({ ...input, password: value });
-        break;
-      }
-      case "createUsername": {
-        setInput({ ...input, createUsername: value });
-        break;
-      }
-      case "createPassword": {
-        setInput({ ...input, createPassword: value });
-        break;
-      }
-      default: {
-        break;
+    },[login])
+    const handleLogin=(event)=>{
+      event.preventDefault()
+      let name=login.find(x=>x.username===iUsername)
+      if(name.password===iPassword&&user==="belum"){
+        setUser("sudah");
+        history.push("/table");
       }
     }
-  };
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      "& .MuiTextField-root": {
-        margin: theme.spacing(1),
-        width: "25ch",
-      },
-      "& label.Mui-focused": {
-        color: "white",
-      },
-      "& .MuiInput-underline:after": {
-        borderBottomColor: "white",
-      },
-      "& .MuiOutlinedInput-root": {
-        "& fieldset": {
-          borderColor: "white",
-        },
-        "&:hover fieldset": {
-          borderColor: "white",
-        },
-        "&.Mui-focused fieldset": {
-          borderColor: "white",
-        },
-      },
-    },
-    input: {
-      color: "white",
-    },
-    floatingLabelFocusStyle: {
-      color: "gray",
-    },
-  }));
-  const classes = useStyles();
-
-  return (
-    <>
-      <div className="content">
-        <h2>Login here!</h2>
-        <form
-          className={classes.root}
-          onSubmit={handleSubmit}
-        >
-          <label>Username: </label>
-          <TextField
-            InputLabelProps={{
-              className: classes.floatingLabelFocusStyle,
-            }}
-            InputProps={{
-              className: classes.input,
-            }}
-            color="white"
-            variant="outlined"
-            label="username"
-            type="text"
-            name="username"
-            onChange={handleChange}
-            value={input.username}
-          />
-          <br />
-          <label>Password: </label>
-          <TextField
-            InputLabelProps={{
-              className: classes.floatingLabelFocusStyle,
-            }}
-            InputProps={{
-              className: classes.input,
-            }}
-            variant="outlined"
-            label="password"
-            type="password"
-            name="password"
-            onChange={handleChange}
-            value={input.password}
-          />
-          <br />
-          <Button
-            variant="contained"
-            color="primary"
-            style={{ marginTop: "20px" }}
-            type="Submit"
-          >
-            Login
-          </Button>
-        </form>
-        <form
-          className={classes.root}
-          onSubmit={handleCreate}
-        >
-          <h2>Don't have any account yet? Make one here!</h2>
-          <label>new Username: </label>
-          <TextField
-            InputLabelProps={{
-              className: classes.floatingLabelFocusStyle,
-            }}
-            InputProps={{
-              className: classes.input,
-            }}
-            label="new username"
-            variant="outlined"
-            type="text"
-            name="createUsername"
-            onChange={handleChange}
-            value={input.createUsername}
-          />
-          <br />
-          <label>new Password: </label>
-          <TextField
-            InputLabelProps={{
-              className: classes.floatingLabelFocusStyle,
-            }}
-            InputProps={{
-              className: classes.input,
-            }}
-            variant="outlined"
-            label="new password"
-            type="password"
-            name="createPassword"
-            onChange={handleChange}
-            value={input.createPassword}
-          />
-          <br />
-          <Button
-            variant="contained"
-            color="primary"
-            style={{ marginTop: "20px" }}
-            type="Submit"
-          >
-            Create Account
-          </Button>
-        </form>
+    const handleRegister=(event)=>{
+      event.preventDefault()
+      // if(login.filter(x=>x.username===iUsername)===null){
+        console.log("masuk");
+        axios.post(`https://backendexample.sanbersy.com/api/users`,
+        {username:iUsername,password:iPassword})
+        .then(res=>{
+          setLogin([...login,{username:iUsername,password:iPassword}])
+        })
+      // }
+      setTanda(iUsername+" sudah registrasi")
+      setIUsername("")
+      setIPassword("")
+    }
+    const handlePassword=(event)=>{
+      event.preventDefault()
+      let username=login.find(x=>x.username===iUsername)
+      axios.put(`https://backendexample.sanbersy.com/api/users/${username.id}`,{
+        password:iPassword
+      })
+      .then(res=>{
+        username.password=iPassword
+        setLogin([...username])
+      })
+      setTanda(iUsername+" sudah ganti password")
+      setIUsername("")
+      setIPassword("")
+    }
+    const handleChange1=(event)=>{
+      setIUsername(event.target.value)
+    }
+    const handleChange2=(event)=>{
+      setIPassword(event.target.value)
+    }
+    return(
+      <div>
+         <style>
+                {`input{
+                    font-family: serif;
+                    width: 80%;
+                    height: 20px;
+                    padding: 12px 20px;
+                    box-sizing: border-box;
+                    border: 2px solid #ccc;
+                    border-radius: 4px;
+                    background-color: #f8f8f8;
+                    resize: none;
+                }
+                .button {
+                    background-color: #1c87c9;
+                    border: none;
+                    color: white;
+                    padding: 20px 34px;
+                    text-align: center;
+                    text-decoration: none;
+                    display: inline-block;
+                    font-size: 20px;
+                    margin: 4px 2px;
+                    cursor: pointer;
+                `}
+            </style>
+        <div style={{padding: '100px'}}>
+            <div style={{border:'1px solid black',backgroundColor:'white'}}>
+                <h1 style={{textAlign: 'center'}}>Masuk</h1>
+                <form>
+                <ol>
+                    <li><strong style={{width: '100px'}}>Username: </strong></li> 
+                    <input type="text" value={iUsername} onChange={handleChange1}/><br/><br/>
+                    <li><strong style={{width: '100px'}}>Password: </strong></li> 
+                    <input type="text" value={iPassword} onChange={handleChange2}/><br/><br/>
+                    <button  onClick={handleLogin}>Login</button>
+                    <button  onClick={handleRegister}>Register</button>
+                    <button  onClick={handlePassword}>Ganti Password</button>
+                    <p>{tanda}</p>
+                </ol>
+                </form>
+            </div>
+        </div> 
       </div>
-    </>
-  );
-};
+    )
+}
 
 export default LoginPage;

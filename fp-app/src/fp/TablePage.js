@@ -1,6 +1,7 @@
 import axios from "axios"
 import React, {useState, useEffect} from "react"
 import Style from './style.css'
+import {Container,Button} from '@material-ui/core';
 const TablePage=()=>{
     const [movie,setMovie]=useState(null)
     const [game,setGame]=useState(null)
@@ -9,6 +10,12 @@ const TablePage=()=>{
     const [searchGame,setSearchGame]=useState(null)
     const [find,setFind]=useState(null)
     const [findG,setFindG]=useState(null)
+    const [filter,setFilter]=useState(null)
+    const [filter2,setFilter2]=useState(null)
+    const [inputFilter,setInputFilter]=useState(null)
+    const [inputFilter2,setInputFilter2]=useState(null)
+    const [inputFilter3,setInputFilter3]=useState(null)
+    const [inputFilter4,setInputFilter4]=useState(null)
     useEffect(()=>{
         if(movie===null){
             axios.get(`https://backendexample.sanbersy.com/api/movies`)
@@ -101,6 +108,46 @@ const TablePage=()=>{
             setEdited(null)
         }
     })
+    const handleFilter=(event)=>{
+        event.preventDefault()
+        setFilter(movie)
+        let newMovieList=movie.filter(el=>el.year===parseInt(inputFilter))
+        setFilter([...newMovieList])
+        setInputFilter("")
+    }
+    const handleChangeFilter=(event)=>{
+        setInputFilter(event.target.value);
+    }
+    const handleFilter2=(event)=>{
+        event.preventDefault()
+        setFilter(movie)
+        let newMovieList=movie.filter(el=>el.genre===inputFilter2)
+        setFilter([...newMovieList])
+        setInputFilter2("")
+    }
+    const handleChangeFilter2=(event)=>{
+        setInputFilter2(event.target.value);
+    }
+    const handleFilter3=(event)=>{
+        event.preventDefault()
+        setFilter2(game)
+        let newGameList=game.filter(el=>el.release===inputFilter3)
+        setFilter2([...newGameList])
+        setInputFilter3("")
+    }
+    const handleChangeFilter3=(event)=>{
+        setInputFilter3(event.target.value);
+    }
+    const handleFilter4=(event)=>{
+        event.preventDefault()
+        setFilter2(game)
+        let newGameList=game.filter(el=>el.genre===inputFilter4)
+        setFilter2([...newGameList])
+        setInputFilter4("")
+    }
+    const handleChangeFilter4=(event)=>{
+        setInputFilter4(event.target.value);
+    }
     const handleSort=(event)=>{
         let temp=event.target.value;
         setEdited(temp)
@@ -137,7 +184,9 @@ const TablePage=()=>{
         setSearchGame("")
     }
     return(
-        <><div style={{paddingLeft:"100px",paddingRight:"100px",paddingTop:"100px"}}>
+        <>
+        <Container>
+        <div style={{paddingLeft:"100px",paddingRight:"100px",paddingTop:"100px"}}>
         <div style={{padding:"20px",backgroundColor:"lightgoldenrodyellow"}}>
         <link href={Style} rel="stylesheet" />  
         <h1>Movies</h1>
@@ -151,12 +200,12 @@ const TablePage=()=>{
                 <th>Review</th>
             </tr>
             <tr>
-                <td><button onClick={handleSort} value={"mtitle"}>sort</button></td>
-                <td><button onClick={handleSort} value={"mdescription"}>sort</button></td>
-                <td><button onClick={handleSort} value={"myear"}>sort</button></td>
-                <td><button onClick={handleSort} value={"mgenre"}>sort</button></td>
-                <td><button onClick={handleSort} value={"mrating"}>sort</button></td>
-                <td><button onClick={handleSort} value={"mreview"}>sort</button></td>
+                <td><Button onClick={handleSort} value={"mtitle"} variant="contained">sort</Button></td>
+                <td><Button onClick={handleSort} value={"mdescription"} variant="contained">sort</Button></td>
+                <td><Button onClick={handleSort} value={"myear"} variant="contained">sort</Button></td>
+                <td><Button onClick={handleSort} value={"mgenre"} variant="contained">sort</Button></td>
+                <td><Button onClick={handleSort} value={"mrating"} variant="contained">sort</Button></td>
+                <td><Button onClick={handleSort} value={"mreview"} variant="contained">sort</Button></td>
             </tr>
         {
             movie!==null&&movie.map((el)=>{
@@ -188,6 +237,22 @@ const TablePage=()=>{
                 Rating : {find.rating}<br/>
                 Review : {find.review}<br/>
             </p>
+        }
+        <form onSubmit={handleFilter} style={{float:"left"}}><br/>
+            <label>Year Movie : </label>
+            <input type="text" value={inputFilter} onChange={handleChangeFilter}/>
+            <button>Filter</button>
+        </form>
+        <form onSubmit={handleFilter2} style={{float:"right"}}><br/>
+        <label>Genre Movie : </label>
+            <input type="text" value={inputFilter2} onChange={handleChangeFilter2}/>
+            <button>Filter</button>
+        </form><br/><br/>
+        {filter!==null && filter.map((filter)=>{
+            return(
+                <p>Title: {filter.title} | Description : {filter.description} | Year : {filter.year} | Genre : {filter.genre} | Rating : {filter.rating} | Review : {filter.review}</p>
+            )
+        })
         }
         </div></div>
         <div style={{paddingLeft:"100px",paddingRight:"100px",paddingBottom:"100px"}}>
@@ -240,7 +305,24 @@ const TablePage=()=>{
                 Release : {findG.release}<br/>
             </p>
         }
+        <form onSubmit={handleFilter3} style={{float:"left"}}><br/>
+            <label>Release Game : </label>
+            <input type="text" value={inputFilter3} onChange={handleChangeFilter3}/>
+            <button>Filter</button>
+        </form>
+        <form onSubmit={handleFilter4} style={{float:"right"}}><br/>
+        <label>Genre Game : </label>
+            <input type="text" value={inputFilter4} onChange={handleChangeFilter4}/>
+            <button>Filter</button>
+        </form><br/><br/>
+        {filter2!==null && filter2.map((filter2)=>{
+            return(
+                <p>Name: {filter2.name} | Genre : {filter2.genre} | Singleplayer : {filter2.singlePlayer} | Multiplayer : {filter2.multiplayer} | Platform : {filter2.platform} | Release : {filter2.release}</p>
+            )
+        })
+        }
         </div></div>
+        </Container>
         </>
     )
 }

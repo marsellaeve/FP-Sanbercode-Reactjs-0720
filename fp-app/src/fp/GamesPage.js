@@ -24,6 +24,15 @@ const GamesPage=()=>{
             })
         }
     })
+    const handleDelete=(event)=>{
+        let idGame=parseInt(event.target.value);
+        let newDaftarGame=game.filter(el=>el.id!==idGame)
+        axios.delete(`https://backendexample.sanbersy.com/api/games/${idGame}`)
+        .then(res=>{
+            console.log(res);
+        })
+        setGame([...newDaftarGame]);
+    }
     return(
         <><div>
         <link href={Style} rel="stylesheet" />  
@@ -43,6 +52,7 @@ const GamesPage=()=>{
                 Multi Player : {game.multiplayer}<br/>
                 </h4>
                 </div>
+                <button onClick={handleDelete} value={game.id}>Delete</button>
                 <hr/>
                 </div>
                 )})

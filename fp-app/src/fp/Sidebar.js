@@ -1,6 +1,6 @@
 import React from "react"
 import Style from './style.css';
-const Sidebar=()=>{
+function Sidebar(){
     return(
         <><div class="sidenav"><link href={Style} rel="stylesheet" />  
         <div style={{textAlign:"center",marginTop:"100px",padding:"10px"}}>
