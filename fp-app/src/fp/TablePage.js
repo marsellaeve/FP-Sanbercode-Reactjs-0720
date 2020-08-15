@@ -1,8 +1,12 @@
 import axios from "axios"
-import React, {useState, useEffect} from "react"
-import Style from './style.css'
-import {Container,Button,Typography,Table,TextField} from '@material-ui/core';
+import React, {useState, useEffect, useContext} from "react"
+import {useHistory,Link} from "react-router-dom"
+import Paper from '@material-ui/core/Paper';  
+import {EditContext} from "./EditContext"
+import {Button,Typography,Table,TextField,TableBody,TableCell,TableHead,TableRow,TableContainer} from '@material-ui/core';
 const TablePage=()=>{
+    const history=useHistory()
+    const [,setEdit]=useContext(EditContext)
     const [movie,setMovie]=useState(null)
     const [game,setGame]=useState(null)
     const [edited,setEdited]=useState(null)
@@ -48,7 +52,8 @@ const TablePage=()=>{
                             singlePlayer:item.singlePlayer,
                             multiplayer:item.multiplayer,
                             platform:item.platform,
-                            release:item.release
+                            release:item.release,
+                            image_url:item.image_url
                         }
                     })
                 )
@@ -183,46 +188,83 @@ const TablePage=()=>{
         })}
         setSearchGame("")
     }
+    const handleEdit=(event)=>{
+        let idMovie=parseInt(event.target.value);
+        let data=movie.find(el=>el.id===idMovie)
+        if(data!==null){
+            setEdit({id:data.id,title:data.title,
+                description:data.description,
+                year:data.year,
+                genre:data.genre,
+                rating:data.rating,
+                review:data.review,
+                image_url:data.image_url})
+                history.push("/movie/edit")
+        }
+    }
+    const handleEdit2=(event)=>{
+        let idGames=parseInt(event.target.value);
+        let data=game.find(el=>el.id===idGames)
+        if(data!==null){
+            setEdit({id:idGames,name:data.name,
+                singlePlayer:data.singlePlayer,
+                release:data.release,
+                genre:data.genre,
+                multiplayer:data.multiplayer,
+                platform:data.platform,
+                image_url:data.image_url})
+                history.push("/game/edit")
+        }
+    }
     return(
         <>
-        <Container>
         <div style={{paddingLeft:"100px",paddingRight:"100px",paddingTop:"100px"}}>
         <div style={{padding:"20px",backgroundColor:"lightgoldenrodyellow"}}>
-        <link href={Style} rel="stylesheet" />  
+        
         <Typography component="h1" variant="h4">Movies</Typography><br/>
+        <TableContainer component={Paper}> 
         <Table>
-            <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Year</th>
-                <th>Genre</th>
-                <th>Rating</th>
-                <th>Review</th>
-            </tr>
-            <tr>
-                <td><Button onClick={handleSort} value={"mtitle"} variant="outlined">sort</Button></td>
-                <td><Button onClick={handleSort} value={"mdescription"} variant="outlined">sort</Button></td>
-                <td><Button onClick={handleSort} value={"myear"} variant="outlined">sort</Button></td>
-                <td><Button onClick={handleSort} value={"mgenre"} variant="outlined">sort</Button></td>
-                <td><Button onClick={handleSort} value={"mrating"} variant="outlined">sort</Button></td>
-                <td><Button onClick={handleSort} value={"mreview"} variant="outlined">sort</Button></td>
-            </tr>
+        <TableHead>
+            <TableRow>
+                <TableCell>Title</TableCell>
+                <TableCell>Description</TableCell>
+                <TableCell>Year</TableCell>
+                <TableCell>Genre</TableCell>
+                <TableCell>Rating</TableCell>
+                <TableCell>Review</TableCell>
+                <TableCell>Edit</TableCell>
+            </TableRow>
+            </TableHead>
+            <TableBody>
+            <TableRow>
+                <TableCell><Button onClick={handleSort} value={"mtitle"}>sort</Button></TableCell>
+                <TableCell><Button onClick={handleSort} value={"mdescription"}>sort</Button></TableCell>
+                <TableCell><Button onClick={handleSort} value={"myear"}>sort</Button></TableCell>
+                <TableCell><Button onClick={handleSort} value={"mgenre"}>sort</Button></TableCell>
+                <TableCell><Button onClick={handleSort} value={"mrating"}>sort</Button></TableCell>
+                <TableCell><Button onClick={handleSort} value={"mreview"}>sort</Button></TableCell>
+                <TableCell></TableCell>
+            </TableRow>
         {
             movie!==null&&movie.map((el)=>{
                 return(
-                    <tr>
-                        <td>{el.title}</td>
-                        <td>{el.description}</td>
-                        <td>{el.year}</td>
-                        <td>{el.genre}</td>
-                        <td>{el.rating}</td>
-                        <td>{el.review}</td>
-                        {/* <td><img src={el.image_url} alt=""></img></td> */}
-                    </tr>
+                    <TableRow component="th" scope="row">
+                        <TableCell>{el.title}</TableCell>
+                        <TableCell>{el.description}</TableCell>
+                        <TableCell>{el.year}</TableCell>
+                        <TableCell>{el.genre}</TableCell>
+                        <TableCell>{el.rating}</TableCell>
+                        <TableCell>{el.review}</TableCell>
+                        <TableCell><button onClick={handleEdit} value={el.id}>Edit</button></TableCell>
+                    {/* <td><img src={el.image_url} alt=""></img></td> */}
+                    </TableRow>
                 )
             })
         }
-        </Table>
+        </TableBody></Table></TableContainer><br/>
+        <Typography component="h2" variant="subtitle1">
+        <Link to="/movie/create" style={{float:"right",backgroundColor:"black",color:"white"}}>CREATE</Link>
+        </Typography>
         <form onSubmit={handleSearch1}><br/>
         <Typography component="h2" variant="subtitle1">
             <label>Title Movie : </label>
@@ -266,38 +308,50 @@ const TablePage=()=>{
         <div style={{paddingLeft:"100px",paddingRight:"100px",paddingBottom:"100px"}}>
         <div style={{padding:"20px",backgroundColor:"lightgoldenrodyellow"}}>
         <Typography component="h1" variant="h4">Games</Typography><br/>
+        <TableContainer component={Paper}> 
         <Table>
-            <tr>
-                <th>Name</th>
-                <th>Genre</th>
-                <th>Single Player</th>
-                <th>Multi Player</th>
-                <th>Platform</th>
-                <th>Release</th>
-            </tr>
-            <tr>
-                <td><Button variant="outlined" onClick={handleSort} value={"gname"}>sort</Button></td>
-                <td><Button variant="outlined" onClick={handleSort} value={"ggenre"}>sort</Button></td>
-                <td><Button variant="outlined" onClick={handleSort} value={"gsingle"}>sort</Button></td>
-                <td><Button variant="outlined" onClick={handleSort} value={"gmulti"}>sort</Button></td>
-                <td><Button variant="outlined" onClick={handleSort} value={"gplatform"}>sort</Button></td>
-                <td><Button variant="outlined" onClick={handleSort} value={"grelease"}>sort</Button></td>
-            </tr>
+        <TableHead>
+            <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell>Genre</TableCell>
+                <TableCell>Single Player</TableCell>
+                <TableCell>Multi Player</TableCell>
+                <TableCell>Platform</TableCell>
+                <TableCell>Release</TableCell>
+                <TableCell>Edit</TableCell>
+            </TableRow>
+        </TableHead>
+        <TableBody>
+            <TableRow>
+                <TableCell><Button onClick={handleSort} value={"gname"}>sort</Button></TableCell>
+                <TableCell><Button onClick={handleSort} value={"ggenre"}>sort</Button></TableCell>
+                <TableCell><Button onClick={handleSort} value={"gsingle"}>sort</Button></TableCell>
+                <TableCell><Button onClick={handleSort} value={"gmulti"}>sort</Button></TableCell>
+                <TableCell><Button onClick={handleSort} value={"gplatform"}>sort</Button></TableCell>
+                <TableCell><Button onClick={handleSort} value={"grelease"}>sort</Button></TableCell>
+                <TableCell></TableCell>
+            </TableRow>
         {
             game!==null&&game.map((el)=>{
                 return(
-                    <tr>
-                        <td>{el.name}</td>
-                        <td>{el.genre}</td>
-                        <td>{el.singlePlayer}</td>
-                        <td>{el.multiplayer}</td>
-                        <td>{el.platform}</td>
-                        <td>{el.release}</td>
-                    </tr>
+                    <TableRow>
+                        <TableCell>{el.name}</TableCell>
+                        <TableCell>{el.genre}</TableCell>
+                        <TableCell>{el.singlePlayer}</TableCell>
+                        <TableCell>{el.multiplayer}</TableCell>
+                        <TableCell>{el.platform}</TableCell>
+                        <TableCell>{el.release}</TableCell>
+                        <TableCell><button onClick={handleEdit2} value={el.id}>Edit</button></TableCell>
+                    </TableRow>
                 )
             })
         }
-        </Table>
+        </TableBody>
+        </Table></TableContainer>
+        <br/>
+        <Typography component="h2" variant="subtitle1">
+        <Link to="/game/create" style={{float:"right",backgroundColor:"black",color:"white"}}>CREATE</Link>
+        </Typography>
         <form onSubmit={handleSearch2}><br/>
         <Typography component="h2" variant="subtitle1">
             <label>Name Game : </label>
@@ -340,7 +394,6 @@ const TablePage=()=>{
         })
         }
         </div></div>
-        </Container>
         </>
     )
 }

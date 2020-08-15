@@ -29,6 +29,7 @@ const LoginPage = () => {
         setUser("sudah");
         history.push("/table");
       }
+      setTanda("Invalid Login")
     }
     const handleRegister=(event)=>{
       event.preventDefault()
